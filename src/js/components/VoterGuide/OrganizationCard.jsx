@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
 import ImageHandler from "../../components/ImageHandler";
 import LoadingWheel from "../../components/LoadingWheel";
-import { numberWithCommas, removeTwitterNameFromDescription } from "../../utils/textFormat";
+import { numberWithCommas, removeTwitterNameFromDescription, createMarkup } from "../../utils/textFormat";
+
 
 /* VISUAL DESIGN HERE: https://projects.invisionapp.com/share/2R41VR3XW#/screens/94226088 */
 
@@ -44,8 +45,11 @@ export default class OrganizationCard extends Component {
         <Link to={voterGuideLink}>
           <div className="card-main__display-name">{displayName}</div>
         </Link>
+
         { twitterDescriptionMinusName && !this.props.turn_off_description ?
-          <p className="card-main__description">{twitterDescriptionMinusName}</p> :
+          <p className="card-main__description">
+           <span dangerouslySetInnerHTML={createMarkup(twitterDescriptionMinusName)} />
+          </p> :
           <p className="card-main__description" />
         }
         <div>

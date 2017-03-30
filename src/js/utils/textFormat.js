@@ -1,3 +1,4 @@
+import React, { Component, PropTypes } from "react";
 
 export function abbreviateNumber (num) {
   // =< 1,000,000 - round to hundred-thousand (1.4M)
@@ -112,4 +113,13 @@ export function elipses (name, mobile){
     return name.length < position ? name : `${name.slice(0, position)}...`;
   }
   return mobile ? cut(3) : cut(8);
+}
+
+
+export function createMarkup (description){
+    const reg_exUrl = /(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/;
+    const arr = description.split(" ");
+    const parsedArr = arr.map(word=> reg_exUrl.test(word) ? `<a onClick = window.open(${"'" + word + "'"})>${word}</a>` : word);
+    const joined = parsedArr.join(" ");
+    return {__html: `<p>${joined}</p>`};
 }
