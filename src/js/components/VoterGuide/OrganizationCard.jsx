@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
 import ImageHandler from "../../components/ImageHandler";
 import LoadingWheel from "../../components/LoadingWheel";
-import { numberWithCommas, removeTwitterNameFromDescription, reg_exUrl, createMarkup, openWindow } from "../../utils/textFormat";
+import { numberWithCommas, removeTwitterNameFromDescription, reg_exUrl, createMarkup, } from "../../utils/textFormat";
 
 /* VISUAL DESIGN HERE: https://projects.invisionapp.com/share/2R41VR3XW#/screens/94226088 */
 
