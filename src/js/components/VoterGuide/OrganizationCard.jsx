@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
 import ImageHandler from "../../components/ImageHandler";
 import LoadingWheel from "../../components/LoadingWheel";
-import { numberWithCommas, removeTwitterNameFromDescription } from "../../utils/textFormat";
+import { numberWithCommas, removeTwitterNameFromDescription, reg_exUrl, createMarkup, openWindow } from "../../utils/textFormat";
 
 /* VISUAL DESIGN HERE: https://projects.invisionapp.com/share/2R41VR3XW#/screens/94226088 */
 
@@ -33,7 +33,7 @@ export default class OrganizationCard extends Component {
     let twitterDescription = twitter_description ? twitter_description : "";
     let twitterDescriptionMinusName = removeTwitterNameFromDescription(displayName, twitterDescription);
     var voterGuideLink = organization_twitter_handle ? "/" + organization_twitter_handle : "/voterguide/" + organization_we_vote_id;
-
+    var arrayedTwitterDescription = twitterDescriptionMinusName.split(" ");
     return <div className="card-main__media-object">
       <div className="card-main__media-object-anchor">
         <Link to={voterGuideLink} className="u-no-underline">
@@ -45,7 +45,14 @@ export default class OrganizationCard extends Component {
           <div className="card-main__display-name">{displayName}</div>
         </Link>
         { twitterDescriptionMinusName && !this.props.turn_off_description ?
-          <p className="card-main__description">{twitterDescriptionMinusName}</p> :
+          <p className="card-main__description">
+          {arrayedTwitterDescription.map(word=>{
+            if (reg_exUrl.test(word)){
+               return <span dangerouslySetInnerHTML={createMarkup(word)} />;
+            }
+               return <span>{word} </span>;
+          })}
+          </p> :
           <p className="card-main__description" />
         }
         <div>

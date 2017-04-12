@@ -113,3 +113,9 @@ export function elipses (name, mobile){
   }
   return mobile ? cut(3) : cut(8);
 }
+
+export let reg_exUrl = /(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/;
+
+export function createMarkup (word) {
+         return {__html: `<a onClick ="window.open(${"'" + word + "'"})">${word}</a> `};
+       }
