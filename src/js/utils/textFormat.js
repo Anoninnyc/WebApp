@@ -118,7 +118,6 @@ export function elipses (name, mobile){
 export let youtube_reg = /(http:|https:)?\/\/(www\.)?(youtube.com|youtu.be)\/(watch)?(\?v=)?(\S+)?/;
 export let vimeo_reg = /http(s)?:\/\/(www\.)?vimeo.com\/(\d+)(\/)?(#.*)?/;
 
-
 let reg_exUrl = /(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/;
 
 function createMarkup (word) {
@@ -140,15 +139,16 @@ export class MarkupForLinks extends Component{
     const parsedText = [""];
     let place = 0;
     arrText.forEach(word => {
-      if (!reg_exUrl.test(word)) {
-        parsedText[place] += `${word} `;
-      } else {
-        parsedText.push(`${word}`, "");
+      const isLink = reg_exUrl.test(word);
+      if (isLink) {
+        parsedText.push(word, "");
         place += 2;
+      } else {
+        parsedText[place] += `${word} `;
       }
     });
     return parsedText;
-}
+  }
 
 render () {
   const arrayedTwitterDescription = this.parse(this.props.text);
