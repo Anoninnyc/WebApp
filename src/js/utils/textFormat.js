@@ -1,3 +1,4 @@
+import React, { Component, PropTypes } from "react";
 
 export function abbreviateNumber (num) {
   // =< 1,000,000 - round to hundred-thousand (1.4M)
@@ -116,3 +117,52 @@ export function elipses (name, mobile){
 
 export let youtube_reg = /(http:|https:)?\/\/(www\.)?(youtube.com|youtu.be)\/(watch)?(\?v=)?(\S+)?/;
 export let vimeo_reg = /http(s)?:\/\/(www\.)?vimeo.com\/(\d+)(\/)?(#.*)?/;
+
+
+let reg_exUrl = /(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/;
+
+function createMarkup (word) {
+   return {__html: `<a onClick ="window.open(${"'" + word + "'"})">${word}</a> `};
+}
+
+export class MarkupForLinks extends Component{
+  static propTypes = {
+    text: PropTypes.string
+  };
+
+  constructor (props){
+    super(props);
+    this.parse = this.parse.bind(this);
+  }
+
+  parse (text) {
+    const arrText = text.split(" ");
+    const parsedText = [""];
+    let place = 0;
+    arrText.forEach(word => {
+      if (!reg_exUrl.test(word)) {
+        parsedText[place] += `${word} `;
+      } else {
+        parsedText.push(`${word}`, "");
+        place += 2;
+      }
+    });
+    return parsedText;
+}
+
+render () {
+  const arrayedTwitterDescription = this.parse(this.props.text);
+  return (
+    <div>
+       {arrayedTwitterDescription.map((blockOfWords, idx)=>{
+            if (reg_exUrl.test(blockOfWords)){
+               return <span key={idx} dangerouslySetInnerHTML={createMarkup(blockOfWords)} />;
+            } else if (blockOfWords) {
+               return <span key={idx}>{blockOfWords} </span>;
+            }
+              return null;
+        })}
+    </div>
+   );
+ }
+}
