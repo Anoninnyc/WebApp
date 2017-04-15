@@ -120,8 +120,8 @@ export let vimeo_reg = /http(s)?:\/\/(www\.)?vimeo.com\/(\d+)(\/)?(#.*)?/;
 
 let reg_exUrl = /(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/;
 
-function createMarkup (word) {
-   return {__html: `<a onClick ="window.open(${"'" + word + "'"})">${word}</a> `};
+function createMarkup (link) {
+   return {__html: `<a onClick ="window.open(${"'" + link + "'"})">${link}</a> `};
 }
 
 export class MarkupForLinks extends Component{
